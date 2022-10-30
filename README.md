@@ -1,7 +1,7 @@
 # Toxic-stealer
 a discord token graber in developement
 
-
+inspired of wasp stealer main code
 soon
 
 <p align="center">
