@@ -1,7 +1,7 @@
 -----
 
 <p align="center">
-<img src="https://cdn.discordapp.com/attachments/1019303407590313994/1036311388903190589/unknown.png", width="150", height="150">
+<img src="https://cdn.discordapp.com/attachments/1019303407590313994/1036311388903190589/unknown.png", width="100", height="100">
 </p>
 
 
@@ -30,10 +30,10 @@ It use the transfersh API (and in a few time also the gofile) to pupload the fil
 <br>
 
 <p align="center">
-<img src="https://cdn.discordapp.com/attachments/1013531930832162857/1036559764303380530/unknown.png", width="500", height="500">
+<img src="https://cdn.discordapp.com/attachments/1013531930832162857/1036559764303380530/unknown.png", width="250", height="250">
 </p>
 <p align="center">
-<img src="https://cdn.discordapp.com/attachments/1019303407590313994/1036311388903190589/unknown.png", width="500", height="500">
+<img src="https://cdn.discordapp.com/attachments/1019303407590313994/1036311388903190589/unknown.png", width="250", height="250">
 </p>
 
 -----
@@ -80,6 +80,3 @@ It use the transfersh API (and in a few time also the gofile) to pupload the fil
 ## <h2><p align="center">✏️Author✏️</p></h2>
 * **Heygdrg** - [Github](https://github.com/heygdrg/) - BKS#1958
 
-<p align="center">
-<img src="https://cdn.discordapp.com/attachments/1013531930832162857/1036559764303380530/unknown.png", width="500", height="500">
-</p>
